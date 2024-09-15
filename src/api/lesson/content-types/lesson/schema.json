@@ -25,12 +25,6 @@
     "VideoUrl": {
       "type": "string"
     },
-    "Course": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::course.course",
-      "inversedBy": "Course"
-    },
     "Published": {
       "type": "boolean",
       "default": false

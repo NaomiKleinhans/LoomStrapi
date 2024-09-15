@@ -4,7 +4,8 @@
   "info": {
     "singularName": "course",
     "pluralName": "courses",
-    "displayName": "Course"
+    "displayName": "Course",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -24,24 +25,25 @@
       "type": "richtext"
     },
     "Image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
-    "Category": {
+    "category": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "admin::user"
+      "target": "api::category.category"
     },
-    "lessons": {
+    "courses": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "admin::user"
+      "target": "api::course.course"
     },
     "Published": {
       "type": "boolean",
@@ -55,11 +57,19 @@
       "relation": "oneToOne",
       "target": "admin::user"
     },
-    "Course": {
+    "course": {
       "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::lesson.lesson",
-      "mappedBy": "Course"
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "category"
+    },
+    "URL": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "files"
+      ]
     }
   }
 }

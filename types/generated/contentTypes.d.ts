@@ -794,6 +794,7 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
     singularName: 'category';
     pluralName: 'categories';
     displayName: 'Category';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -802,6 +803,18 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
     Name: Attribute.String & Attribute.Required;
     Slug: Attribute.UID<'api::category.category', 'Name'>;
     Description: Attribute.Text;
+    categories: Attribute.Relation<
+      'api::category.category',
+      'oneToMany',
+      'api::course.course'
+    >;
+    category: Attribute.Relation<
+      'api::category.category',
+      'oneToMany',
+      'api::course.course'
+    >;
+    Image: Attribute.Media<'images' | 'files' | 'videos' | 'audios', true> &
+      Attribute.Required;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -826,6 +839,7 @@ export interface ApiCourseCourse extends Schema.CollectionType {
     singularName: 'course';
     pluralName: 'courses';
     displayName: 'Course';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -835,24 +849,25 @@ export interface ApiCourseCourse extends Schema.CollectionType {
     Slug: Attribute.UID<'api::course.course', 'Title'>;
     Description: Attribute.RichText;
     Image: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    Category: Attribute.Relation<
+    category: Attribute.Relation<
       'api::course.course',
       'oneToOne',
-      'admin::user'
+      'api::category.category'
     >;
-    lessons: Attribute.Relation<
+    courses: Attribute.Relation<
       'api::course.course',
       'oneToMany',
-      'admin::user'
+      'api::course.course'
     >;
     Published: Attribute.Boolean & Attribute.DefaultTo<false>;
     Duration: Attribute.Integer;
     Author: Attribute.Relation<'api::course.course', 'oneToOne', 'admin::user'>;
-    Course: Attribute.Relation<
+    course: Attribute.Relation<
       'api::course.course',
-      'oneToMany',
-      'api::lesson.lesson'
+      'manyToOne',
+      'api::category.category'
     >;
+    URL: Attribute.Media<'files'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -886,11 +901,6 @@ export interface ApiLessonLesson extends Schema.CollectionType {
     Slug: Attribute.UID<'api::lesson.lesson', 'Title'>;
     Content: Attribute.RichText;
     VideoUrl: Attribute.String;
-    Course: Attribute.Relation<
-      'api::lesson.lesson',
-      'manyToOne',
-      'api::course.course'
-    >;
     Published: Attribute.Boolean & Attribute.DefaultTo<false>;
     Duration: Attribute.Integer;
     createdAt: Attribute.DateTime;
