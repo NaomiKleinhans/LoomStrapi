@@ -813,8 +813,7 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
       'oneToMany',
       'api::course.course'
     >;
-    Image: Attribute.Media<'images' | 'files' | 'videos' | 'audios', true> &
-      Attribute.Required;
+    Image: Attribute.Media<'images'> & Attribute.Required;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -847,8 +846,7 @@ export interface ApiCourseCourse extends Schema.CollectionType {
   attributes: {
     Title: Attribute.String & Attribute.Required & Attribute.Unique;
     Slug: Attribute.UID<'api::course.course', 'Title'>;
-    Description: Attribute.RichText;
-    Image: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    Image: Attribute.Media<'images'>;
     category: Attribute.Relation<
       'api::course.course',
       'oneToOne',
@@ -860,14 +858,20 @@ export interface ApiCourseCourse extends Schema.CollectionType {
       'api::course.course'
     >;
     Published: Attribute.Boolean & Attribute.DefaultTo<false>;
-    Duration: Attribute.Integer;
-    Author: Attribute.Relation<'api::course.course', 'oneToOne', 'admin::user'>;
+    Duration: Attribute.Integer & Attribute.DefaultTo<1>;
+    admin_users: Attribute.Relation<
+      'api::course.course',
+      'oneToMany',
+      'admin::user'
+    >;
     course: Attribute.Relation<
       'api::course.course',
       'manyToOne',
       'api::category.category'
     >;
-    URL: Attribute.Media<'files'>;
+    Material: Attribute.Media<'files'>;
+    ShortDescription: Attribute.Text;
+    Video: Attribute.Media<'videos'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
